@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎓 Tic-Ing-3
+# 🎓 TEK-UP Engineering – Year 3 Courses
 
 **Course materials, labs and revision resources — 3rd-year Engineering (Computer Science)**
 
@@ -39,7 +39,7 @@ The goal is to keep everything **organized, searchable and versioned**, and to m
 ## 🗂 Repository structure
 
 ```text
-Tic-Ing-3/
+tekup-engineering-year3-courses/
 ├── Semestre 1/
 │   └── <Subject>/
 │       ├── Cours/        # Lecture notes and summaries
@@ -89,8 +89,8 @@ Content is being added progressively.
 Clone the repository:
 
 ```bash
-git clone https://github.com/AjmiOns/Tic-Ing-3.git
-cd Tic-Ing-3
+git clone https://github.com/AjmiOns/tekup-engineering-year3-courses.git
+cd tekup-engineering-year3-courses
 ```
 
 Pull the latest updates at any time:
@@ -122,7 +122,7 @@ Suggestions and corrections are welcome:
 4. Push the branch: `git push origin fix/typo-in-tp2`
 5. Open a Pull Request
 
-You can also open an [issue](https://github.com/AjmiOns/Tic-Ing-3/issues) to report an error or request a missing resource.
+You can also open an [issue](https://github.com/AjmiOns/tekup-engineering-year3-courses/issues) to report an error or request a missing resource.
 
 ---
 
