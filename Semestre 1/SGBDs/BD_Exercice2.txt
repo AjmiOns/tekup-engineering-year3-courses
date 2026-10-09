@@ -1,0 +1,2 @@
+ALTER TABLE Etudiant 
+CHANGE age dateNaiss DATE;

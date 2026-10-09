@@ -1,0 +1,27 @@
+body {
+	max-width: 60em;
+	margin: auto;
+}
+
+p {
+	text-indent: 2em;
+	text-align: justify;
+}
+
+form {
+	margin: auto;
+	width: 15em;
+	text-align: center;
+}
+
+label {
+	display: block;
+}
+
+@media(min-width: 100em) {
+	form {
+		position: absolute;
+		top: 40vh;
+		right: calc(25vw - 15em - 7.5em);
+	}
+}

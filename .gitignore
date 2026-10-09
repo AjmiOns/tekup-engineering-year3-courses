@@ -1,0 +1,8 @@
+
+# Python virtual environments
+.venv/
+
+# Ignore Java installers
+/Semestre 2/Programmation JAVA/Installation/*.exe
+# Ignore Python virtual environments
+**/.venv/

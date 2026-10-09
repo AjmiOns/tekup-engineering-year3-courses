@@ -1,0 +1,132 @@
+CREATE TABLE Pilote (
+    numP NUMBER(8) CONSTRAINT PK_Pilote PRIMARY KEY,
+    nomP VARCHAR2(20) NOT NULL,
+    prenomP VARCHAR2(20) NOT NULL,
+    ville VARCHAR2(30) NOT NULL,
+    salaire NUMBER NOT NULL
+);
+
+CREATE TABLE Avion (
+    numAv NUMBER(6) CONSTRAINT PK_Avion PRIMARY KEY,
+    typeAv VARCHAR2(30) NOT NULL,
+    capacite NUMBER(6) NOT NULL,
+    localisation VARCHAR2(30) NOT NULL
+);
+
+CREATE TABLE Vol (
+    numVol NUMBER(4) CONSTRAINT PK_Vol PRIMARY KEY,
+    numP NUMBER(8) NOT NULL,
+    numAv NUMBER(6) NOT NULL,
+    villeDep VARCHAR2(25) NOT NULL,
+    villeAr VARCHAR2(25) NOT NULL,
+    CONSTRAINT fk_vol_pilote FOREIGN KEY (numP)
+        REFERENCES Pilote(numP),
+    CONSTRAINT fk_vol_avion FOREIGN KEY (numAv)
+        REFERENCES Avion(numAv)
+);
+
+
+
+INSERT INTO Pilote VALUES (101, 'Dalton','Jack','Californie',6000);
+INSERT INTO Pilote VALUES (102, 'Turan','Micke','New York',6200);
+INSERT INTO Pilote VALUES (103, 'Driss','Sami','Paris',6500);
+INSERT INTO Pilote VALUES (104, 'Durand','Richard','Marseille',6600);
+INSERT INTO Pilote VALUES (105, 'Marchant','Bertrand','Paris',6100);
+
+
+INSERT INTO Avion VALUES (2001, 'AirBus A320',150,'Paris');
+INSERT INTO Avion VALUES (2002, 'AirBus A340',295,'Paris');
+INSERT INTO Avion VALUES (2003, 'Boeing 737',135,'New York');
+INSERT INTO Avion VALUES (2004, 'Boeing 767',350,'Californie');
+INSERT INTO Avion VALUES (2005, 'Boeing 787',250,'Californie');
+
+
+INSERT INTO Vol VALUES (501, 101, 2004, 'Californie', 'New York');
+INSERT INTO Vol VALUES (502, 103, 2001, 'Paris', 'Marseille');
+INSERT INTO Vol VALUES (503, 102, 2003, 'New York', 'Paris');
+INSERT INTO Vol VALUES (504, 105, 2005, 'Paris', 'Californie');
+
+--***Les pilotes qui touchent exactement 6000 € ont une augmentation de salaire de 10%. 
+
+
+UPDATE Pilote 
+SET salaire = salaire * 1.10
+WHERE salaire = 6000;
+
+SELECT numP, nomP, prenomP, salaire
+FROM Pilote
+WHERE salaire >= 6000;
+
+
+--A***Tous les vols.
+
+SELECT * FROM Vol;
+-------------------------------------------------------------------------
+
+--B***Nom, prénom et salaire des pilotes dont le salaire est entre 6200 € et 6500 €. 
+
+SELECT nomP, prenomP, salaire
+FROM Pilote
+WHERE salaire BETWEEN 6200 AND 6500;
+
+-------------------------------------------------------------------------
+
+--C*** Nom, prénom et salaire des pilotes les mieux payés. 
+
+SELECT nomP, prenomP, salaire
+FROM Pilote
+WHERE salaire = (SELECT MAX(salaire) FROM Pilote);
+
+-------------------------------------------------------------------------
+--D*** Caractéristiques des avions localisés à Paris. 
+SELECT numAv, typeAv, capacite, localisation
+FROM Avion
+WHERE localisation = 'Paris';
+
+-------------------------------------------------------------------------
+
+--E***Caractéristiques (NumAv, TypeAv, Capacite, Localisation) des avions localisés dans la même ville que le pilote 'sami'. 
+
+
+SELECT a.*
+FROM Avion a, Pilote p
+WHERE UPPER(a.localisation) = UPPER(p.ville)
+  AND LOWER(p.prenomP) = 'sami';
+ 
+
+--OR 
+
+SELECT numAv, typeAv, capacite, localisation
+FROM Avion
+WHERE localisation = (
+    SELECT ville
+    FROM Pilote
+    WHERE prenomP = 'Sami'
+);
+-------------------------------------------------------------------------
+
+--*** les avion qui n'ont pas de vol 
+
+SELECT *
+FROM Avion
+WHERE numAv NOT IN (SELECT numAv FROM Vol);
+
+--OR
+
+SELECT *
+FROM Avion a
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Vol v
+    WHERE v.numAv = a.numAv
+);
+
+-------------------------------------------------------------------------
+--J*** La liste des prénoms et des noms des pilotes dans une même colonne d’affichage (attribuer un nom à cette colonne), en commençant par le prénom avec le premier  caractère en majuscule puis un espace puis le nom tout en majuscule.  (opérateur de concaténation || , INITCAP(chaine), UPPER(chaine))
+
+SELECT INITCAP(prenomP) || ' ' || UPPER(nomP) AS Pilote_Complet
+FROM Pilote;
+
+-------------------------------------------------------------------------
+--K*** Le pilote qui a effectué le plus grand nombre de vols. 
+

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body style="padding-bottom: 50px;padding-top: 15px;">
+    <div>
+        <div style ="text-align: center;line-height: 30px;">
+            <h6 >Online Registration Form</h6>
+            <br>
+            <h6>Twelfth International Conference on Wireless and Optical Communications Networks WOCN2015</h6>    
+        </div>
+        <p>(<span style="color:red">*</span>)mandatory field</p>
+    </div>
+    <fieldset style="padding: 30px;">
+        <legend>Personal Information</legend>
+        <div style="width: 50%;text-align: right;float: left;line-height: 25px;">
+            <label><span style="color: red;">*</span> First Name : </label>
+            <br>
+            <label><span style="color: red;">*</span> Last/Family Name : </label>
+            <br>
+            <label><span style="color: red;">*</span> Company/Organisation : </label>
+            <br>
+            <label><span style="color: red;">*</span> I am a </label>
+            <br>
+            <label> for paper presenter, please upload your presentation document : </label>
+        </div>
+        <div style="line-height: 25px; padding-left: 51%;">
+            <input type="text" style="width:80%;" id="fname">
+            <br>
+            <input type="text"style="width:80%;" id="lname">
+            <br>
+            <input type="text"style="width:80%;" id="company">
+            <br>
+            <input type="radio" name ="type" value="participant"> <label for = "participant">participant</label>
+            <span>/</span>
+            <input type="radio" value="paper_presenter" name ="type"> <label for = "paper_presenter">paper presenter</label>
+            <br>
+            <input type="text"style="width:70%;">
+            <input type="button" value="Browse" style="width:9.5%;">
+
+        </div>
+    </fieldset>
+    <fieldset style="padding: 30px;">
+        <legend>Adresse</legend>
+        <div style="width: 30%;text-align: right;float: left;line-height: 25px;">
+            <label><span style="color: red;">*</span> City : </label>
+            <br>
+            <label><span style="color: red;">*</span> Zip/Postal Code : </label>
+            <br>
+            <label><span style="color: red;">*</span> Country : </label>
+        </div>
+        <div style="line-height: 25px; padding-left: 31%;">
+            <input type="text"style="width:60%;" id="city">
+            <br>
+            <input type="text" style="width:30%;" id="zip">
+            <br>
+            <select>
+                <option>India</option>
+                <option>Tunisia</option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset style="padding: 30px;">
+        <legend>Adresse</legend>
+        <div style="width: 30%;text-align: right;float: left;line-height: 25px;">
+            <label><span style="color: red;">*</span> E-mail : </label>
+            <br>
+            <label> Office Phone Number : </label>
+        </div>
+        <div style="line-height: 25px; padding-left: 31%;">
+            <input type="text"style="width:60%;" id="mail">
+            <br>
+            <input type="text" style="width:30%;">
+            <br>
+        </div>
+    </fieldset>
+		
+    <div>
+        <fieldset style="border-right:none;border-left:none;width: 60%;margin: auto;margin-top: 20px;text-align: center;line-height: 30px;">
+            <h9>Conference Registration</h9>
+        </fieldset>
+        <p style="font-weight: bold;">Please select one of the following choices:</p>
+    </div>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 80%;">
+                <input type="radio" value="AI" name="registration" ><label style="margin-left: 7px;" for="AI">AI - Advance Registration for International Participant (On or before 10<sup>th</sup>of july)<br> <span style="margin-left: 15px;"></span> Author registration : <span style="color: blue;">(International Authors registration. Deadline for author registration is July 15)</span></label>
+            </td>
+            <td>
+                <p>US$400.00</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 80%;">
+                <input type="radio" value="AO" name="registration" ><label style="margin-left: 7px;" for="AO">AO - Advance Registration for Local Participant (On or before 10<sup>th</sup> of july<br><span style="margin-left: 15px;"></span> Author registration : <span style="color: blue;">(Local Authors registration. Deadline for author registration is July 15)</span></label>
+            </td>
+            <td>
+                <p>US$150.00</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 80%;">
+                <input type="radio" value="LI" name="registration" ><label style="margin-left: 7px;" for="LI">LI - Late/ On-site Registration for International Participant (After 10<sup>th</sup> of July)</label>
+            </td>
+            <td>
+                <p>US$410.00</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 80%;">
+                <input type="radio" value="LO" name="registration"><label style="margin-left: 7px;" for="LO">LO - Late/ On-site Registration for Local Participant (After 10<sup>th</sup> of July)</label>
+            </td>
+            <td>
+                <p>US$155.00</p>
+            </td>
+        </tr>
+    </table>
+    <div>
+        <fieldset style="border-right:none;border-left:none;width: 60%;margin: auto;margin-top: 20px;text-align: center;line-height: 30px;">
+            <h9>Additional Options</h9>
+        </fieldset>
+    </div>
+    <table style="width: 100%;">
+        <tr>
+            <td>
+                <input type="checkbox" value="EN" id="EN"> <label for="EN"> EN - Extra copy of tutorial notes</label>
+            </td>
+            <td>
+                <p>US$50.00</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" value="EC" id="EC"> <label for="EC">EC - Extra copy of conference proceedings And or CDROM</label>
+            </td>
+            <td>
+                <p>US$15.00</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" value="ED" id="ED"> <label for="ED">ED - Accompanying guest to banquet dinner (September 10)</label>
+            </td>
+            <td>
+                <p>US$50.00</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" value="FE" id="FE"> <label for="FE">FE - Administration Fee</label>
+            </td>
+            <td>
+                <p>US$200.00</p>
+            </td>
+        </tr>
+    </table>
+    <div style="text-align: center;">
+        <input type="button"value="Register" onclick="validation()"></span>
+    </div>
+
+</body>
+</html>

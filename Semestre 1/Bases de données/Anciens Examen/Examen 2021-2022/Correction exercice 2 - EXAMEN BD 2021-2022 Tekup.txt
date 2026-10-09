@@ -1,0 +1,58 @@
+Requêtes en Algèbre Relationnelle:
+----------------------------------------------
+1.
+R1=Jointure (Individu I , Location L, I.n°identité=L.n°identité)
+R2= jointure (R1, Logement L, R1.n°Logement=L.n°logement)
+R3= sélection(R2, adresse = "Rue Pierre Qury")
+R4= Projection (R3, Nom, Prénom)
+--------------------
+2.
+R5= Sélection (R1, DateDébut ="10\10\2021" and DateFin="31\12\2021")
+R6= Projection (R5, n°identité, Nom,Prénom, DateNaissance, n°téléphone)
+---------------------------
+3.
+soit "XX" le nom d'un quartier
+
+R7= jointure (R2, Quartier Q, R2.id_quartier=Q.id_quartier)
+R8= Sélection (R7, Nom_quartier= "XX")
+R9= projection (R8, Nom)
+--------------------------------
+4.
+Y=Projection (TypeLogement, TypeLogement)
+X=Projection (R2, n°identité, Nom,Prénom,DateNaissance, TypeLogement)
+R10= Division(X,Y)
+-----------------------------------
+Requêtes SQL
+-----------------
+1.
+Select adresse, n°logement, COUNT(*) as nbr-Individus
+from Individu I, Location L, Logement LO
+where I.N°identité=L.N°identité and L.n°Logement=LO.n°Logement
+Group by n°logement 
+Having Count(*)>=100;
+-----------------------------------
+2.
+Select N°Logement, TypeLogement
+from Logement 
+where Loyer > ALL (select Loyer FROM 
+Individu I, Location L, Logement LO
+where I.N°identité=L.N°identité and L.n°Logement=LO.n°Logement and (NOM = " BEN Brahim" and Prénom ="Mohamed Ali") Or (Nom="Triki" and Prénom="Salma")
+);
+----------------------------------
+3.
+select *
+from Logement 
+where Loyer = (Select Loyer from
+Logement L, Individu I , Location LO
+where I.N°identité=L.N°identité 
+and L.n°Logement=LO.n°Logement and n°Identité= "Id010");
+------------------------------------------
+4.
+Select Nom 
+from
+Individu I, Location L, Logement LO, Quartier Q
+where I.N°identité=L.N°identité 
+and L.n°Logement=LO.n°Logement 
+and Q.id_quartier=LO.id_quartier
+and Nom_quartier like "XX";
+

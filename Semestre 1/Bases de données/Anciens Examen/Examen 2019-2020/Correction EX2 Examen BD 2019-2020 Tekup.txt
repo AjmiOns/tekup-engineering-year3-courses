@@ -1,0 +1,54 @@
+Requêttes Algébrique
+-----------------------------------
+1.
+R1= jointure (Editeur E, Journal J, E.code-e=J.code-e)
+R2= jointure (R1, distribution D, R1.code-j = D.code-j)
+R3= jointure(R2, PonitdeVente PV, R2.code-pv = PV.code-PV)
+R4= séléction (R3, adressecomplète="Grand Tunis")
+R5= projection (R4, code-e, raison-sociale)
+--------------------------------------
+2.
+R6= Projection (Journal, code-j)
+R7=Projection (Livraison, code-j)
+R8= différence (R6,R7)
+R9= jointure (R8, Journal J, R8.code-j=J.code-j)
+R10= jointure (R9, Editeur E, R9.code-e = E.code-e)
+R11= projection (R10, titre, raison-sociale)
+------------------------------------------------------
+3.
+Y= projection (Depot, no-depot)
+R12=Jointure (R1, Livraison L, R1.code-j=L.code-j)
+X= Projection (R12, no-depot, code-e, raison-sociale)
+R13= division (X,Y)
+-----------------------------------------------------
+4.
+R14= jointure (Journal J, Livraison L, J.code-j=L.code-j)
+R15= jointure (R14, Depot D, R14.no-depot=D.no-depot)
+R16= selection (R15, adresse="Tunis" and adresse="SFAX")
+R17= projection (R16, code-j)
+--------------------------------------------------
+Requetes SQL
+-------------------------------
+1.
+Select code-d from Achat
+where qtée-achetée = ( select MAX(qtée-achetée) from Achat);
+----------------------------------
+2.select select SUM(qte-demandée)
+ from achat
+ group by code-j;
+--------------------------------
+3.
+select code-d from distribution D, Journal J 
+where D.code-j=j.code-j
+and (qte-dist * prix) = (select Max(qte-dist * prix) from distribution D, Journal J where D.code-j=J.code-j);
+-------------------------------
+4. 
+Select code-d, adresse
+from distribution DD, Distributeur D
+where D.code-d = DD.code-d
+and qtee-dist= (select SUM(qtee-dist) AS qte
+from Distribution where qte >=30);
+---------------
+5.
+select * from journal
+where (prix >=20) and (périodicité=7);

@@ -1,0 +1,427 @@
+               Correction TP1 : Initiation à ORACLE
+            -----------------------------------------------   
+
+Soit les trois relations :
+
+  AVION  (AVNUM, AVNOM, CAPACITE, LOCALISATION)
+  VOL	   (VOLNUM, PLNUM, AVNUM, VILLEDEP, VILLEARR, HEUREDEP, HEUREARR)
+  PILOTE (PLNUM, PLNOM, PLPRENOM, VILLE, SALAIRE)
+
+ En souligné : clé primaire
+
+Et soit les extensions respectives suivantes :
+
+  AVNUM AVNOM       CAPACITE LOCALISATION
+------- ---------- --------- ------------
+      1 A300             300 Nice
+      2 A310             300 Nice
+      3 B707             250 Paris
+      4 A300             280 Lyon
+      5 concorde         160 Nice
+      6 B747             460 Paris
+      7 B707             250 Paris
+      8 A310             300 Toulouse
+      9 mercure          180 lyon
+     10 concord          160 Paris
+
+  
+   VOLNUM     PLNUM     AVNUM VILLEDEP   VILLEARR    HEUREDEP  HEUREARR
+--------- --------- --------- ---------- ---------- --------- ---------
+      100         1         1 NICE       TOULOUSE        1100      1230
+      101         1         8 PARIS      Londres         1700      1830
+      102         2         1 TOULOUSE   LYON            1400      1600
+      103         5         3 TOULOUSE   LYON            1800      2000
+      104         9         1 PARIS      Madrid           645       815
+      105        10         2 LYON       Paris           1100      1200
+      106         1         4 PARIS      Berlin           800       900
+      107         8         4 NICE       Dakkar           715       845
+      108         1         8 NANTES     LYON             900      1530
+      109         8         2 NICE       Tunis           1210      1345
+      110         9         2 PARIS      Lisbonne        1500      1600
+      111         1         2 LYON       Monastir        1630      2000
+      112         4         5 NICE       Rabat           1100      1400
+      113         3         5 LENS       PARIS           1500      1600
+      114         8         9 PARIS      Barcelonne      1700      1800
+      115         7         5 PARIS      Miami           1800      1900
+
+
+    PLNUM PLNOM           PLPRENOM        VILLE             SALAIRE
+--------- --------------- --------------- --------------- ---------
+        1 MIRANDA         SERGE           PARIS               21000
+        2 LETHANH         NHAN            TOULOUSE            21000
+        3 TALADOIRE       GILLES          NICE                18000
+        4 BONFILS         ELIANE          PARIS               17000
+        5 LAKHAL          LOTFI           TOULOUSE            19000
+        6 BONFILS         GERARD          PARIS               18000
+        7 MARCENAC        PIERRE          NICE                17000
+        8 LAHIRE          PHILIPPE        LYON                15000
+        9 CICHETTI        ROSINE          NICE                18000
+       10 CAVARERO        ANNIE           PARIS               20000
+
+
+
+
+------------------------------------------------------------------
+1) Définissez sous Oracle le schéma des trois relations AVION, VOL 
+   et PILOTE.
+------------------------------------------------------------------
+drop table vol;
+drop table pilote;
+drop table avion;
+create table pilote (
+	plnum		number(3) constraint pl_PK primary key,
+	plnom		varchar2(30),
+	plprenom 	varchar2(30),
+	ville		varchar2(30),
+	salaire	number(7, 2));
+
+create table avion (
+	avnum			number(3),
+	avnom			varchar2(30),
+	capacite	   	number(3),
+	localisation	varchar2(30),
+	constraint 	avion_PK primary key(avnum));
+
+create table vol (
+	volnum		number(3) constraint vol_PK primary key,
+	plnum		number(3) constraint vol_PL_FK references pilote(plnum),
+	avnum		number(3),
+	villedep	varchar2(30),
+	villearr	varchar2(30),
+	heuredep	number(5),
+	heurearr	number(5),
+	constraint vol_AV_FK  foreign key(avnum) references avion(avnum));
+
+--------------------------------------------------------------
+2) Insérez les trois extensions dans les tables respectives. 
+--------------------------------------------------------------
+
+insert into pilote values 
+       (1, 'miranda', 'serge', 'paris', 21000.00);
+insert into pilote values 
+       (2, 'lethanh', 'nhan', 'toulouse', 21000.00);
+insert into pilote values 
+       (3, 'taladoire', 'gilles', 'Nice', 18000.00);
+insert into pilote values 
+       (4, 'bonfils', 'eliane', 'paris', 17000.00);
+insert into pilote values 
+       (5, 'lakhal', 'lotfi', 'toulouse', 19000.00);
+insert into pilote values 
+       (6, 'bonfils', 'gerard', 'paris', 18000.00);
+insert into pilote values 
+       (7, 'marcenac', 'pierre', 'nice', 17000.00);
+insert into pilote values 
+       (8, 'lahire', 'philippe', 'lyon', 15000.00);
+insert into pilote values 
+       (9, 'cicchetti', 'rosine', 'nice', 18000.00);
+insert into pilote values 
+       (10,'cavarero','annie','paris',20000.00);
+
+insert into avion values (1, 'A300', 300, 'Nice');
+insert into avion values (2, 'A310', 300, 'Nice');
+insert into avion values (3, 'B707', 250, 'Paris');
+insert into avion values (4, 'A300', 280, 'Lyon');
+insert into avion values (5, 'concorde', 160, 'Nice');
+insert into avion values (6, 'B747', 460, 'Paris');
+insert into avion values (7, 'B707', 250, 'Paris');
+insert into avion values (8, 'A310', 300, 'Toulouse');
+insert into avion values (9, 'mercure', 180, 'lyon');
+insert into avion values (10, 'concord', 160, 'Paris');
+
+insert into vol values (100,1,1,'nice','toulouse',1100,1230);
+insert into vol values (101,1,8,'paris','toulouse',1700,1830);
+insert into vol values (102,2,1,'toulouse','lyon',1400,16000);
+insert into vol values (103,5,3,'toulouse','lyon',1800,2000);
+insert into vol values (104,9,1,'paris','nice',0645,08150);
+insert into vol values (105,10,2,'lyon','nice',1100,1200);
+insert into vol values (106,1,4,'paris','lyon',0800,0900);
+insert into vol values (107,8,4,'nice','paris',0715,0845);
+insert into vol values (108,1,8,'nantes','lyon',0900,1530);
+insert into vol values (109,8,2,'nice','paris',1215,1345);
+insert into vol values (110,9,2,'paris','lyon',1500,1600);
+insert into vol values (111,1,2,'lyon','nantes',1630,2000);
+insert into vol values (112,4,5,'nice','lens',1100,1400);
+insert into vol values (113,3,5,'lens','paris',1500,1600);
+insert into vol values (114,8,9,'paris','toulouse',1700,1800);
+insert into vol values (115,7,5,'paris','toulouse',1800,1900);
+
+
+-----------------------------------------------------------------
+2 bis) Insérez les trois extensions dans les tables respectives. 
+       Vous créerez des séquences pour chaque clé primaire.
+-----------------------------------------------------------------
+
+drop sequence numero_pil;
+drop sequence numero_av;
+drop sequence numero_vol;
+
+delete from vol;
+delete from pilote;
+delete from avion;
+
+create sequence numero_pil
+start with 1
+increment by 1
+nomaxvalue;
+create sequence numero_av
+start with 1
+increment by 1
+nomaxvalue;
+
+create sequence numero_vol
+start with 100
+increment by 1
+nomaxvalue;
+
+
+insert into pilote values 
+       (numero_pil.nextval, 'miranda', 'serge', 'paris', 21000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'lethanh', 'nhan', 'toulouse', 21000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'taladoire', 'gilles', 'Nice', 18000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'bonfils', 'eliane', 'paris', 17000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'lakhal', 'lotfi', 'toulouse', 19000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'bonfils', 'gerard', 'paris', 18000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'marcenac', 'pierre', 'nice', 17000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'lahire', 'philippe', 'lyon', 15000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'cicchetti', 'rosine', 'nice', 18000.00);
+insert into pilote values 
+       (numero_pil.nextval, 'cavarero', 'annie', 'paris', 20000.00);
+
+insert into avion values (numero_av.nextval, 'A300', 300, 'Nice');
+insert into avion values (numero_av.nextval, 'A310', 300, 'Nice');
+insert into avion values (numero_av.nextval, 'B707', 250, 'Paris');
+insert into avion values (numero_av.nextval, 'A300', 280, 'Lyon');
+insert into avion values (numero_av.nextval, 'concorde', 160, 'Nice');
+insert into avion values (numero_av.nextval, 'B747', 460, 'Paris');
+insert into avion values (numero_av.nextval, 'B707', 250, 'Paris');
+insert into avion values (numero_av.nextval, 'A310', 300, 'Toulouse');
+insert into avion values (numero_av.nextval, 'mercure', 180, 'lyon');
+insert into avion values (numero_av.nextval, 'concord', 160, 'Paris');
+
+insert into vol values 
+       (numero_vol.nextval, 1, 1, 'nice', 'toulouse', 1100, 1230);
+insert into vol values 
+       (numero_vol.nextval, 1, 8, 'paris', 'toulouse', 1700, 1830);
+insert into vol values 
+       (numero_vol.nextval, 2, 1, 'toulouse', 'lyon', 1400, 16000);
+insert into vol values 
+       (numero_vol.nextval, 5, 3, 'toulouse', 'lyon', 1800, 2000);
+insert into vol values 
+       (numero_vol.nextval, 9, 1, 'paris', 'nice', 0645, 08150);
+insert into vol values 
+       (numero_vol.nextval, 10, 2, 'lyon', 'nice', 1100, 1200);
+insert into vol values 
+       (numero_vol.nextval, 1, 4, 'paris', 'lyon', 0800, 0900);
+insert into vol values 
+       (numero_vol.nextval, 8, 4, 'nice', 'paris', 0715, 0845);
+insert into vol values 
+       (numero_vol.nextval, 1, 8, 'nantes', 'lyon', 0900, 1530);
+insert into vol values 
+       (numero_vol.nextval, 8, 2, 'nice', 'paris', 1215, 1345);
+insert into vol values 
+       (numero_vol.nextval, 9, 2, 'paris', 'lyon', 1500, 1600);
+insert into vol values 
+       (numero_vol.nextval, 1, 2, 'lyon', 'nantes', 1630, 2000);
+insert into vol values 
+       (numero_vol.nextval, 4, 5, 'nice', 'lens', 1100, 1400);
+insert into vol values 
+       (numero_vol.nextval, 3, 5, 'lens', 'paris', 1500, 1600);
+insert into vol values 
+       (numero_vol.nextval, 8, 9, 'paris', 'toulouse', 1700, 1800);
+insert into vol values 
+       (numero_vol.nextval, 7, 5, 'paris', 'toulouse', 1800, 1900);
+
+
+--------------------------------------------------------------------------
+
+3) Consultation du dictionnaire : Exprimez les requêtes suivantes sous SQL
+   a) Affichez la description de chacune des tables PILOTE, AVION et VOL.
+   b) Quelles sont les contraintes qui ont été associés à la table VOL?
+   c) Quels sont les types d'objets définis pour l'utilisateur courant?
+   d) Quels sont les indexes créés par Oracle relativement au schéma
+      précédent?
+   e) Quelles sont les tables qui renferment la colonne PLNUM ?
+---------------------------------------------------------------------------
+
+a) Affichez la description de chacune des tables PILOTE, AVION et VOL.	
+describe pilote;
+	select *  from pilote;
+
+	describe avion;
+	select *  from avion;
+
+	describe vol;
+	select   volnum, plnum, avnum, substr(villedep, 1, 10) villedep,
+		   substr(villearr, 1, 10) villearr, heuredep, heurearr
+	from vol;
+
+b)	select constraint_name, constraint_type
+	from   user_constraints
+	where  upper(table_name) = 'VOL';
+c)	select substr(object_name, 1, 15), object_type, created
+	from   user_objects;
+
+d)	select index_name, table_name
+	from   user_indexes;
+
+e)	select table_name
+	from   user_tab_columns
+	where  upper(column_name) = 'PLNUM';
+
+		TABLE_NAME
+		------------------------------
+		PILOTE
+		VOL
+	
+	La requete suivante retourne toutes les colonnes de la table de 
+	l'utilisateur courant
+	
+		select column_name, table_name
+     		from USER_TAB_COLUMNS;
+
+		COLUMN_NAME                TABLE_NAME
+		------------------------------ ---------------------
+		AVNUM                          	AVION
+		AVNOM                          	AVION
+		CAPACITE                      	AVION
+		LOCALISATION                  	AVION
+		PLNUM                         	PILOTE
+		PLNOM                          	PILOTE
+		PLPRENOM                       	PILOTE
+		VILLE                          	PILOTE
+		SALAIRE                        	PILOTE
+		VOLNUM                        	VOL
+		PLNUM                          	VOL
+		AVNUM                          	VOL
+		VILLEDEP                       	VOL
+		VILLEARR                       	VOL
+		HEUREDEP                      	VOL
+		HEUREARR                       	VOL
+
+	La requete suivante affiche toutes les tables de l'utilisateurs.
+
+		select distinct table_name
+		from   user_tab_columns;
+
+
+
+		TABLE_NAME
+		-------------
+		PILOTE
+		AVION
+		VOL
+
+	De même que la requete suivante :
+
+		select *
+		from sys.tab;
+
+	La requete suivante retourne toutes les tables systèmes dans lesquelles 	sont répertoriées les informations sur les données de chaque utilisateur.
+
+		select table_name
+		from dict
+		where upper(table_name) like upper('user%');
+--------------------------------------------------------------------------------------
+4) Manipulation des données : Exprimez les requêtes suivantes sous SQL
+	a) 	Quels sont les noms des avions avec leurs numéros et leurs 
+		localisation (autre que Nice), ayant une capacité supérieure 
+	      à 200 avec un tri décroissant sur le numéro d'avion ?
+
+	   	select  	avnum, avnom, localisation
+	   	from    	avion
+	   	where   	capacite > 200
+	   	order by 	avnum desc;
+
+
+	b) 	Quels sont les noms des pilotes qui assurent au moins un vol
+            au départ de Paris ?
+            Donnez 7 solutions différentes.
+
+
+	   	select  plnom
+	 	from    pilote, vol
+           	where   (pilote.plnum=vol.plnum)and (upper(villedep) = 'PARIS');
+
+   	   	select  plnom
+	   	from    pilote
+           	where   plnum in (select plnum
+			     		from   vol
+                             	where  upper(villedep) = 'PARIS');
+
+   	   	select  plnom
+	   	from    pilote
+           	where   plnum = any (	select plnum
+			        		from   vol
+                                	where  upper(villedep) = 'PARIS');
+
+   	   	select  plnom
+	   	from    pilote
+           	where   'PARIS' in (	select upper(villedep)
+			       		from   vol
+                               	where  pilote.plnum=vol.plnum);
+
+  	   	select  plnom
+	   	from    pilote
+           	where   'PARIS' = any (	select upper(villedep)
+			      		from   vol
+                                  	where  pilote.plnum=vol.plnum);
+
+  	   	select  plnom
+	   	from    pilote
+     		where   exists (	select *
+			   		from   vol
+              			where	(pilote.plnum=vol.plnum) 
+						and (upper(villedep) = 'PARIS'));
+
+   	   	select  plnom
+	   	from    pilote
+           	where   0 < (	select count(*)
+					from   vol
+                      		where	(pilote.plnum=vol.plnum) 
+                               	and (upper(villedep) = 'PARIS'));
+
+
+
+
+
+	c) Noms des pilotes qui conduisent un Airbus ? 
+      	   Donnez une solution prédicative et une solution ensembliste.
+
+  	   	select  distinct plnom
+	   	from    pilote, avion, vol
+         	where	(pilote.plnum = vol.plnum) and
+		   	(vol.avnum = avion.avnum) and (upper(avnom) like 'A%')
+
+  	   	select  plnom
+	   	from    pilote
+           	where   plnum in (select plnum
+          	     		from   vol
+                                where  avnum in (select avnum
+                                              	 from   avion
+					      	 where   upper(avnom)like 'A%'));
+				    
+	d) Noms des pilotes dont le salaire est le même que celui de 
+           Miranda ou de Lahire ?
+
+	  	select x.plnom
+	   	from   pilote x, pilote y
+	   	where  (x.salaire = y.salaire) and 
+                  (upper(y.plnom) in ('MIRANDA', 'LAHIRE'));
+
+        e) Donnez toutes les paires de pilotes habitant la même ville ?
+
+	   	select x.plnom, y.plnom
+	   	from   pilote x, pilote y
+	   	where  (x.ville = y.ville) and (x.plnom < y.plnom);
+
+
+
+

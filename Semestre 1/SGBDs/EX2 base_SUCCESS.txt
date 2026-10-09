@@ -1,0 +1,153 @@
+CREATE TABLE Etudiant (
+  numEtu NUMBER(6) CONSTRAINT PK_Etudiant PRIMARY KEY,
+  nomEtu VARCHAR2(20) NOT NULL,
+  prenomEtu VARCHAR2(20) NOT NULL,
+  dateNaiss DATE NOT NULL,
+  genre CHAR(1) NOT NULL,
+  CHECK (numEtu BETWEEN 0 AND 999999),
+  CHECK (genre IN ('M','F'))
+);
+
+
+CREATE TABLE Enseignant (
+  numEns NUMBER(6) CONSTRAINT PK_Enseignant PRIMARY KEY,
+  nomEns VARCHAR2(30) NOT NULL,
+  prenomEns VARCHAR2(30) NOT NULL,
+  grade CHAR(3) NOT NULL,
+  CHECK (grade IN ('ASS','MCF','PRO'))
+);
+
+
+CREATE TABLE Matiere (
+  numMat NUMBER(4) CONSTRAINT PK_Matiere PRIMARY KEY,
+  nomMat VARCHAR2(25) NOT NULL,
+  coefficient NUMBER(1) NOT NULL,
+  numEnsRef NUMBER(6),
+  CHECK (coefficient BETWEEN 0 AND 9),
+  CONSTRAINT FK_Matiere_Ens FOREIGN KEY (numEnsRef)
+      REFERENCES Enseignant(numEns)
+);
+
+
+CREATE TABLE Evaluation (
+  numEtuRef NUMBER(6) NOT NULL,
+  numMatRef NUMBER(4) NOT NULL,
+  note NUMBER(4,2) NOT NULL,
+  CONSTRAINT PK_Evaluation PRIMARY KEY (numEtuRef, numMatRef),
+  CONSTRAINT FK_Evaluation_Etudiant FOREIGN KEY (numEtuRef)
+      REFERENCES Etudiant(numEtu),
+  CONSTRAINT FK_Evaluation_Matiere FOREIGN KEY (numMatRef)
+      REFERENCES Matiere(numMat),
+  CHECK (note BETWEEN 0 AND 20)
+);
+_________________________________________________________________________
+ALTER TABLE Etudiant 
+RENAME COLUMN age TO dateNaiss;
+_________________________________________________________________________
+ALTER TABLE Etudiant 
+MODIFY dateNaiss DATE;
+_________________________________________________________________________
+INSERT INTO Etudiant (numEtu, nomEtu, prenomEtu, dateNaiss, genre) VALUES
+(100001, 'ATTIA', 'Maryem',    DATE '2001-10-06', 'F');
+
+INSERT INTO Etudiant (numEtu, nomEtu, prenomEtu, dateNaiss, genre) VALUES
+(100002, 'KOCHBATI', 'Aya',  DATE '2003-06-03', 'F');
+
+INSERT INTO Etudiant (numEtu, nomEtu, prenomEtu, dateNaiss, genre) VALUES
+(100003, 'Haddad', 'Walid',    DATE '2003-11-10', 'M');
+
+INSERT INTO Etudiant (numEtu, nomEtu, prenomEtu, dateNaiss, genre) VALUES
+(100004, 'Kacem', 'Nesrine',   DATE '2006-02-14', 'F');
+
+INSERT INTO Etudiant (numEtu, nomEtu, prenomEtu, dateNaiss, genre) VALUES
+(100005, 'Gharbi', 'Youssef',  DATE '2002-08-30', 'M');
+
+-- INSERT ENSEIGNANT 
+INSERT INTO Enseignant (numEns, nomEns, prenomEns, grade) VALUES
+(200001, 'Mhiri', 'Sami', 'ASS');
+
+INSERT INTO Enseignant (numEns, nomEns, prenomEns, grade) VALUES
+(200002, 'Souilah', 'Nadia', 'MCF');
+
+INSERT INTO Enseignant (numEns, nomEns, prenomEns, grade) VALUES
+(200003, 'Bouzid', 'Lotfi', 'PRO');
+
+-- INSERT MATIERE
+INSERT INTO Matiere (numMat, nomMat, coefficient, numEnsRef) VALUES
+(3001, 'Algorithmique',     4, 200003);
+
+INSERT INTO Matiere (numMat, nomMat, coefficient, numEnsRef) VALUES
+(3002, 'BaseDeDonnees',     3, 200002);
+
+INSERT INTO Matiere (numMat, nomMat, coefficient, numEnsRef) VALUES
+(3003, 'Reseaux',           4, 200001);
+
+INSERT INTO Matiere (numMat, nomMat, coefficient, numEnsRef) VALUES
+(3004, 'Mathematiques',     5, 200003);
+
+INSERT INTO Matiere (numMat, nomMat, coefficient, numEnsRef) VALUES
+(3005, 'Anglais',           2, 200003);   -- matière sans enseignant
+
+-- INSERT EVALUATION
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100001, 3001, 15.50);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100001, 3002, 12.00);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100001, 3004, 14.25);
+
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100002, 3001, 14.50);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100002, 3002, 11.00);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100002, 3005, 13.75);
+
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100003, 3003, 16.00);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100003, 3004, 10.50);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100003, 3005, 18.00);
+
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100004, 3001, 12.00);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100004, 3003, 11.25);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100004, 3005, 14.00);
+
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100005, 3002, 17.50);
+
+INSERT INTO Evaluation (numEtuRef, numMatRef, note) VALUES
+(100005, 3004, 19.00);
+
+_________________________________________________________________________
+Tous les étudiants triés par nom et prénom (ordre croissant)
+
+SELECT *
+FROM Etudiant
+ORDER BY nomEtu ASC, prenomEtu ASC;
+_________________________________________________________________________
+-- Tt etudiant ont été évaluer tt les matières
+
+SELECT e.numEtu, ROUND (SUM (NVL(e.note, 0)* m.coefficient) / SUM (m.coefficient),2) AS Moyenne
+FROM Matiere m, Evaluation e
+WHERE m.numMat=e.numMat 
+GROUP BY e.numEtud
+_________________________________________________________________________
+

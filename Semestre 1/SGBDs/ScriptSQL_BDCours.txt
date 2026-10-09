@@ -1,0 +1,167 @@
+ALTER SESSION SET NLS_DATE_FORMAT ='DD-MM-YYYY';
+
+CREATE TABLE Client(
+numClient NUMBER(8) CONSTRAINT PK_Client PRIMARY KEY,
+nomClient VARCHAR2(30),
+prenomClient VARCHAR2(30),
+dat_Naiss DATE,
+adresse VARCHAR2(50));
+
+CREATE TABLE Commande(
+numCommande NUMBER(4) CONSTRAINT PK_Commande PRIMARY KEY,
+datCde DATE DEFAULT SYSDATE,
+numClient NUMBER(8),
+CONSTRAINT FK_Commande_Client FOREIGN KEY(numClient) REFERENCES Client(numClient));
+
+CREATE TABLE Article(
+numArticle NUMBER(4) CONSTRAINT PK_Article PRIMARY KEY,
+designation VARCHAR2(100), 
+couleur VARCHAR2(30), 
+prixHT NUMBER);
+
+CREATE TABLE LigneCommande(
+numCmde NUMBER(4),
+numArticle NUMBER(4),
+qteCdee NUMBER(3),
+CONSTRAINT PK_LigneCommande PRIMARY KEY(numCmde,numArticle),
+CONSTRAINT FK_LigneCmde_Commande FOREIGN KEY(numCmde) REFERENCES Commande(numCommande),
+CONSTRAINT FK_LigneCmde_Article FOREIGN KEY(numArticle) REFERENCES Article(numArticle));
+
+CREATE TABLE Refus(
+numCmde NUMBER(4),
+numArticle NUMBER(4),
+datRefus DATE DEFAULT SYSDATE,
+qteRefusee NUMBER(3),
+motif VARCHAR2(200),
+CONSTRAINT PK_Refus PRIMARY KEY(numCmde,numArticle,datRefus),
+CONSTRAINT FK_Refus_LigneCmde FOREIGN KEY(numCmde,numArticle) REFERENCES LigneCommande(numCmde,numArticle));
+
+INSERT INTO Client VALUES(101,'nomCLient1', 'prenomCLient1','03-10-1990', 'adresse1');
+INSERT INTO Client VALUES(102,'nomCLient2', 'prenomCLient2','20-04-1990', 'adresse2');
+INSERT INTO Client VALUES(103,'nomCLient3', 'prenomCLient3','03-01-1980', 'adresse3');
+INSERT INTO Client VALUES(104,'nomCLient4', 'prenomCLient4','10-05-1975', 'adresse4');
+INSERT INTO Client VALUES(105,'nomCLient5', 'prenomCLient5','10-05-2002', 'adresse5');
+
+
+INSERT INTO Article VALUES(11,'Clavier Gamer','Noir', 250);
+INSERT INTO Article VALUES(12,'Souris SF','Blanc',150);
+INSERT INTO Article VALUES(13,'Galaxy S50','Silver',300);
+INSERT INTO Article VALUES(14,'iPhone XS','Gold',400);
+INSERT INTO Article VALUES(15,'cleUSB','Gold',160);
+
+INSERT INTO Commande VALUES(1,'20-12-2019',101);
+INSERT INTO Commande VALUES(2,'20-12-2019',102);
+INSERT INTO Commande VALUES(3,'23-12-2019',103);
+INSERT INTO Commande VALUES(4,'29-12-2019',101);
+INSERT INTO Commande VALUES(5,'23-12-2019',103);
+INSERT INTO Commande VALUES(6,'28-12-2019',102);
+
+INSERT INTO LigneCommande VALUES(1,11,1);
+INSERT INTO LigneCommande VALUES(2,12,2);
+INSERT INTO LigneCommande VALUES(3,11,2);
+INSERT INTO LigneCommande VALUES(3,12,2);
+INSERT INTO LigneCommande VALUES(3,13,1);
+INSERT INTO LigneCommande VALUES(3,14,1);
+INSERT INTO LigneCommande VALUES(4,12,1);
+INSERT INTO LigneCommande VALUES(5,11,3);
+INSERT INTO LigneCommande VALUES(5,12,4);
+INSERT INTO LigneCommande VALUES(6,12,1);
+
+INSERT INTO Refus VALUES(3,11,'25-12-2019',1,'touche non fonctionnelle');
+----------------------------------------------------------------
+-- Afficher les articles qui n'ont jamais  t  command s.
+
+SELECT * 
+FROM Article 
+WHERE numArticle NOT IN ( SELECT numArticle FROM LigneCommande);
+
+
+
+SELECT a.* 
+FROM Article a 
+WHERE NOT EXISTS ( SELECT numArticle FROM LigneCommande WHERE numArticle = a.numArticle);
+------
+-- Afficher les commandes sur lesquelles figurent tous les articles
+SELECT a.*
+FROM Commande a
+WHERE NOT EXISTS (SELECT *
+                  FROM Article b
+                   WHERE NOT EXISTS ( SELECT *
+                                      FROM LigneCommande c
+                                      WHERE a.numCommande =c. numCmde
+ 
+                                       AND b.numArticle = c.numArticle ) ) ;
+
+
+-- ou en utilisant groupement
+
+
+SELECT a.* 
+FROM Commande a, (SELECT numCmde, COUNT(numArticle) AS "NbreArticles"
+FROM LigneCommande
+GROUP BY numCmde 
+HAVING COUNT(numArticle)= ( SELECT COUNT(*) FROM Article) )b 
+WHERE a.numCommande = b.numCmde;
+
+
+
+-- Calculer et Afficher le montant total des factures par client
+
+
+CREATE OR REPLACE VIEW Facture(numCL,MontantTotalFacture) AS
+SELECT a.numClient , SUM(b.prixHt * c.qteCdee) 
+FROM Commande a, Article b, LigneCommande c
+WHERE a.numCommande = c.numCmde
+AND b.numArticle = c.numArticle
+GROUP BY a.numClient ;
+
+
+
+Afficher le client qui a le plus d pens  sur ses achats ---> client qui a le motant total le plus  lev  ---- > MAX
+
+
+SELECT d.*
+FROM Client d, Facture S
+WHERE d.numClient = S.numCL
+AND S.MontantTotalFacture = (SELECT MAX (MontantTotalFacture) FROM Facture) ;
+
+--Calculer et afficher les quantit s maximales command es par client et par article.
+
+SELECT c.numClient,l.numArticle, MAX(l.qteCdee)     
+FROM Commande c, LigneCommande l  
+WHERE c.numCommande=l.numCmde     
+GROUP BY c.numClient,l.numArticle; 
+-----------------------------------------------------------------
+--Calculer et afficher la proportion des clients mineurs.
+
+SELECT (SELECT COUNT(*)  
+        FROM Client   
+        WHERE ((SYSDATE-dat_Naiss)/365)<18)   /  
+       (SELECT COUNT(*)  
+        FROM Client )  
+       * 100 AS "proportion"  
+FROM DUAL;  
+---------------------------------------------------------------------
+
+--Cr er une vue nomm e InfoCommande qui donne la liste de tous les clients et les d tails de leurs commandes respectives  ventuelles
+
+CREATE OR REPLACE VIEW  InfoCommande ( numero_Client, nom, numero_Commande, numero_Article, designation, quantiteeCommandee, prix_unitaire_TTC, quantiteeRefusee)
+AS SELECT a.numClient, a.nomClient, b.numCommande, d.numArticle, c.designation, d.qteCdee, prixHT*1.18, qteRefusee
+FROM Client a, Commande b, Article c, LigneCommande d , Refus e
+WHERE a.numClient = b.numClient(+)
+AND b.numCommande = d.numCmde(+)
+AND d.numArticle = c.numArticle(+)
+AND d.numCmde = e.numCmde(+)
+AND d.numArticle = e.numArticle(+)
+ORDER BY a.numClient ASC;
+
+SELECT * FROM InfoCommande;
+
+
+
+
+
+
+
+
+

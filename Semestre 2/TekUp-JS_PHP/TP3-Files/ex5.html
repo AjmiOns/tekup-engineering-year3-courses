@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercice 5</title>
+	<script language="javascript">
+
+	</script>
+</head>
+<body>
+<form name="f">
+	<p>Ce formulaire permet d’afficher le total de la commande pour le client :<span id="client"> </span>  </p>
+	<p>Prix des produits :<br>
+	<INPUT TYPE="radio" NAME="prod" VALUE="10" CHECKED>Pull 10d<BR>
+	<INPUT TYPE="radio" NAME="prod" VALUE="30">Pontallon 30d<BR>
+	<INPUT TYPE="radio" NAME="prod" VALUE="20">Chemise 20d<BR></p>
+	<p>Quantité :<br>
+	<SELECT NAME="liste" id="quantite"> 
+	<OPTION VALUE="1"> 1
+	<OPTION VALUE="2"> 2
+	<OPTION VALUE="3"> 3
+	<OPTION VALUE="4"> 4
+	<OPTION VALUE="5"> 5
+	</SELECT></p>
+	<p>Remises :<br>
+	<INPUT TYPE="radio" NAME="remise" VALUE="5">5%<BR>
+	<INPUT TYPE="radio" NAME="remise" VALUE="2">2%<BR>
+	<INPUT TYPE="radio" NAME="remise" VALUE="10" CHECKED>10%<BR></p>
+	<p> <input type="button" value="calculer" onClick="calcul();" ></p>
+	<p>Le total de la commande est :<input type="text" value ="" id ="commande" name="comm" readonly> </p>
+</form> 
+</body> 
+</html>
+
