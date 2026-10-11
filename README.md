@@ -142,17 +142,6 @@ A selection of the labs and projects I'm most proud of. Replace the examples wit
 
 ---
 
-## 🆕 Recently added
-
-- `YYYY-MM` – Added _what you added_ (subject)
-- `YYYY-MM` – Added _what you added_ (subject)
-- `YYYY-MM` – Added _what you added_ (subject)
-
-> Keep this list to the last 5 or so updates to show the repository is active.
-
-<p align="right"><a href="#top">⬆ Back to top</a></p>
-
----
 
 ## 🚀 Usage
 
