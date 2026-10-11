@@ -144,6 +144,13 @@ Engineering student — TEK-UP University, Tunisia
 
 <div align="center">
 
+> *“Engineers like to solve problems. If there are no problems handily available, they will create their own problems.”*
+> — Scott Adams (the humorous option)
+
+---
+
+<div align="center">
+
 ⭐ If this repository helps you, consider giving it a star.
 
 </div>
