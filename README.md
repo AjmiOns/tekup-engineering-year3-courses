@@ -14,13 +14,14 @@
 ![Repo size](https://img.shields.io/github/repo-size/AjmiOns/tekup-engineering-year3-courses)
 
 [Overview](#-overview) •
-[Repository structure](#-repository-structure) •
 [Topics](#-topics-at-a-glance) •
 [Semester 1](#-semester-1) •
 [Semester 2](#-semester-2) •
-[Highlights](#-highlights) •
+[Structure](#-repository-structure) •
+[Conventions](#-conventions) •
 [Usage](#-usage) •
 [Contributing](#-contributing) •
+[License](#-license) •
 [Author](#-author)
 
 </div>
@@ -44,38 +45,7 @@ The goal is to keep everything **organized, searchable and versioned**, and to m
 
 ---
 
-## 🗂 Repository structure
-
-```text
-tekup-engineering-year3-courses/
-├── Semestre 1/
-│   └── <Subject>/
-│       ├── Cours/        # Lecture notes and summaries
-│       ├── TD/           # Tutorials and exercises
-│       ├── TP/           # Labs and practical work
-│       ├── README.md     # Subject overview (objectives, chapters, tools)
-│       └── ...
-├── Semestre 2/
-│   └── <Subject>/
-│       └── ...
-├── _templates/
-│   └── SUBJECT_README.md # Template for each subject folder
-├── .gitignore
-├── LICENSE
-└── README.md
-```
-
-Each subject folder follows the same logic so you always know where to look.
-
-> 💡 Tip: to generate the real tree from your folders, run `tree -L 2` at the root of the repository and paste the output here.
-
-<p align="right"><a href="#top">⬆ Back to top</a></p>
-
----
-
 ## 🧩 Topics at a glance
-
-Find everything about a theme without scanning every subject:
 
 | Theme | Subjects |
 |-------|----------|
@@ -106,8 +76,6 @@ Find everything about a theme without scanning every subject:
 | 9 | Virtualisation et Cloud | Cloud & Virtualization | [Open](./Semestre%201/Virtualisation%20et%20Cloud) |
 | 10 | Techniques de communication-1 | Soft skills | [Open](./Semestre%201/Techniques%20de%20communication-1) |
 
-> ⚠️ Adjust the folder links above so they match your real folder names exactly (GitHub links are case-sensitive and spaces become `%20`).
-
 👉 Browse the whole folder: [`Semestre 1`](./Semestre%201)
 
 <p align="right"><a href="#top">⬆ Back to top</a></p>
@@ -116,7 +84,7 @@ Find everything about a theme without scanning every subject:
 
 ## 📗 Semester 2
 
-Content is being added progressively. The table below will mirror Semester 1 as subjects are added.
+Content is being added progressively.
 
 | # | Subject | Theme | Folder |
 |---|---------|-------|--------|
@@ -128,37 +96,28 @@ Content is being added progressively. The table below will mirror Semester 1 as 
 
 ---
 
-## ⭐ Highlights
+## 🗂 Repository structure
 
-A selection of the labs and projects I'm most proud of. Replace the examples with your own:
-
-| Project / Lab | Subject | What it shows |
-|---------------|---------|---------------|
-| [Project name](./path/to/folder) | Subject | One-line description of what you built and the tools used |
-| [Project name](./path/to/folder) | Subject | One-line description of what you built and the tools used |
-| [Project name](./path/to/folder) | Subject | One-line description of what you built and the tools used |
-
-<p align="right"><a href="#top">⬆ Back to top</a></p>
-
----
-
-
-## 🚀 Usage
-
-Clone the repository:
-
-```bash
-git clone https://github.com/AjmiOns/tekup-engineering-year3-courses.git
-cd tekup-engineering-year3-courses
+```text
+tekup-engineering-year3-courses/
+├── Semestre 1/
+│   └── <Subject>/
+│       ├── Cours/        # Lecture notes and summaries
+│       ├── TD/           # Tutorials and exercises
+│       ├── TP/           # Labs and practical work
+│       ├── README.md     # Subject overview (objectives, chapters, tools)
+│       └── ...
+├── Semestre 2/
+│   └── <Subject>/
+│       └── ...
+├── _templates/
+│   └── SUBJECT_README.md # Template for each subject folder
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
 
-Pull the latest updates at any time:
-
-```bash
-git pull origin main
-```
-
-No installation is required: the repository contains documents and code organized by subject. Individual labs may include their own instructions (dependencies, how to run) inside their folder.
+Each subject folder follows the same logic so you always know where to look.
 
 <p align="right"><a href="#top">⬆ Back to top</a></p>
 
@@ -205,6 +164,27 @@ No installation is required: the repository contains documents and code organize
 
 ---
 
+## 🚀 Usage
+
+Clone the repository:
+
+```bash
+git clone https://github.com/AjmiOns/tekup-engineering-year3-courses.git
+cd tekup-engineering-year3-courses
+```
+
+Pull the latest updates at any time:
+
+```bash
+git pull origin main
+```
+
+No installation is required: the repository contains documents and code organized by subject. Individual labs may include their own instructions (dependencies, how to run) inside their folder.
+
+<p align="right"><a href="#top">⬆ Back to top</a></p>
+
+---
+
 ## 🤝 Contributing
 
 Suggestions and corrections are welcome:
@@ -223,17 +203,11 @@ You can also open an [issue](https://github.com/AjmiOns/tekup-engineering-year3-
 
 ## 📜 License
 
-My own notes, summaries and code are released under the **[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)** license (add a matching `LICENSE` file at the root of the repository).
+My own notes, summaries and code are released under the **[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)** license.
 
 Official course documents provided by instructors remain the property of their authors and TEK-UP University, and are **not** covered by this license.
 
-<p align="right"><a href="#top">⬆ Back to top</a></p>
-
----
-
-## ⚠️ Disclaimer
-
-This repository reflects personal work and notes. It may contain mistakes and is **not** an official source. Always refer to your instructors' materials for the reference version.
+> ⚠️ **Disclaimer:** this repository reflects personal work and notes. It may contain mistakes and is **not** an official source. Always refer to your instructors' materials for the reference version.
 
 <p align="right"><a href="#top">⬆ Back to top</a></p>
 
